@@ -38,3 +38,7 @@ python3 -m http.server 8080
 | Hub `/hubs/partidos`, `SeguirLiga(slug)` | Evento `partido` con el tanteador y el estado de cada partido |
 
 Ninguno pide login.
+
+## Licencia
+
+MIT. Ver [LICENSE](LICENSE).
