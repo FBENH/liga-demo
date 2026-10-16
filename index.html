@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Liga</title>
+  <link rel="stylesheet" href="estilos.css" />
+</head>
+<body>
+  <header class="portada">
+    <div class="contenedor">
+      <p class="sobre">Básquet amateur</p>
+      <h1 id="nombre">Cargando…</h1>
+      <p id="descripcion" class="descripcion"></p>
+    </div>
+  </header>
+
+  <main class="contenedor">
+    <section id="en-vivo" class="en-vivo" aria-live="polite" hidden></section>
+
+    <section>
+      <h2>Posiciones</h2>
+      <div id="posiciones"></div>
+    </section>
+
+    <section>
+      <h2>Figuras</h2>
+      <div id="mvp" class="tarjetas"></div>
+    </section>
+
+    <section>
+      <h2>Fixture y resultados</h2>
+      <div id="partidos"></div>
+    </section>
+
+    <section>
+      <h2>Líderes</h2>
+      <p id="lideres-nota" class="suave"></p>
+      <div id="lideres" class="tarjetas"></div>
+    </section>
+  </main>
+
+  <footer class="contenedor pie">
+    Datos y resultados en vivo de la API pública de <a href="https://github.com/FBENH/ApiStatsApp">StatsApp</a>.
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/@microsoft/signalr@10.0.11/dist/browser/signalr.min.js"></script>
+  <script src="config.js"></script>
+  <script type="module" src="app.js"></script>
+</body>
+</html>

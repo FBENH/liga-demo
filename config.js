@@ -1,0 +1,7 @@
+// Dónde está la API de StatsApp y qué liga mostrar. Es lo único que hay que cambiar para usar el sitio con otra liga.
+window.LIGA = {
+  api: 'http://localhost:5049',
+  slug: 'liga-demo',
+  // Página de StatsApp con la vista en vivo de cada partido (relato, tiros y planilla).
+  app: 'http://localhost:4200',
+};
