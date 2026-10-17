@@ -5,10 +5,18 @@ const $ = (id) => document.getElementById(id);
 
 let partidos = [];
 
+// La base de la API es gratis y se pausa cuando nadie la usa: el primer pedido puede tardar hasta un minuto
+// o volver con 503 mientras despierta. En ese caso se espera lo que pide Retry-After y se vuelve a probar.
 async function pedir(ruta = '') {
-  const respuesta = await fetch(base + ruta);
-  if (!respuesta.ok) throw new Error(`La API respondió ${respuesta.status}`);
-  return (await respuesta.json()).data;
+  for (let intento = 1; ; intento++) {
+    const respuesta = await fetch(base + ruta);
+    if (respuesta.status === 503 && intento < 12) {
+      await new Promise((listo) => setTimeout(listo, Math.min(Number(respuesta.headers.get('Retry-After')) || 5, 30) * 1000));
+      continue;
+    }
+    if (!respuesta.ok) throw new Error(`La API respondió ${respuesta.status}`);
+    return (await respuesta.json()).data;
+  }
 }
 
 // Texto que viene de la API: se escapa antes de ponerlo en el HTML.
@@ -182,7 +190,15 @@ function conectar() {
   iniciar();
 }
 
+// Si la primera carga se demora, se explica por qué.
+const demora = setTimeout(() => {
+  if ($('nombre').textContent !== 'Cargando…') return;
+  $('descripcion').textContent =
+    'Despertando la base de datos. Está en un plan gratis que se pausa cuando nadie la usa, así que la primera carga puede tardar hasta un minuto.';
+}, 3000);
+
 Promise.all([cargarLiga(), cargarPartidos(), cargarTablas()])
+  .finally(() => clearTimeout(demora))
   .then(conectar)
   .catch((e) => {
     $('nombre').textContent = 'No se pudo cargar la liga';
